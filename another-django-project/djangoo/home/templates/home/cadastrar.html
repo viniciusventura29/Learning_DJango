@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar</title>
+</head>
+<body>
+{%include 'navbar.html'%}
+  <form action="{% url 'cadastrar_music' %}" class="form-control"  method="post">
+      {% csrf_token %}
+      <div class="mb-3 p-2">
+    <input type="text" class="form-control" name="name" placeholder="Digite o nome da musica: ">
+    <input type="text" class="form-control mt-3"  name="author" placeholder="Digite o nome do autor: ">
+    <input type="text" class="form-control mt-3" name="bpm" placeholder="Digite o bpm da musica: ">
+    <input type="text" class="form-control mt-3" name="tom" placeholder="Digite o tom da musica: ">
+    <input type="file" class="form-control mt-3" name="photos" placeholder="Coloque uma imagem aqui">
+
+      <button type="submit" class="btn mt-3 btn-success">Salvar</button>
+          </div>
+  </form>
+</body>
+</html>

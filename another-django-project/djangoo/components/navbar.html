@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{%include 'header.html'%}
+<nav class="navbar navbar-expand-lg text-bg-primary px-5 py-3">
+    <h2>LOGO</h2>
+    <div class="container-fluid justify-content-end">
+    <ul class="navbar-nav">
+        <a class="nav-link" href="{%url 'cadastrar_music'%}"><li class="nav-item text-white">Cadastrar</li></a>
+        <a class="nav-link" href="{% url 'detalhes' %}"><li class="nav-item text-white">Detalhes</li></a>
+    </ul>
+
+    </div>
+
+</nav>
