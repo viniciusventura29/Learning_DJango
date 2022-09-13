@@ -13,7 +13,6 @@ class Produto(models.Model):
     preco = models.DecimalField(max_digits=6, decimal_places=2)
     qtd_estoque = models.PositiveSmallIntegerField()
     categoria = models.ForeignKey(Categoria,on_delete=models.PROTECT)
-    
 
     def __str__(self):  
         return self.titulo
@@ -59,7 +58,6 @@ class PedidoItem(models.Model):
     id_produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
 
 class Assados(models.Model):
-
     titulo = models.CharField(max_length=25)
     preco = models.DecimalField(max_digits=6, decimal_places=2)
     qtd_estoque = models.PositiveSmallIntegerField()

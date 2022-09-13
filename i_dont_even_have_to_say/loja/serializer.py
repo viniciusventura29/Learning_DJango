@@ -1,7 +1,8 @@
+from dataclasses import fields
 from pydoc import describe
 from statistics import mode
 from rest_framework import serializers
-from .models import Assados, Avaliacoes, Produto
+from .models import Assados, Avaliacoes, Categoria, Produto
 from decimal import Decimal
 
 class ProdutoSerializer(serializers.ModelSerializer):
@@ -10,6 +11,17 @@ class ProdutoSerializer(serializers.ModelSerializer):
         fields = ['id', 'titulo', 'preco', 'qtd_estoque', 'categoria', 'preco_taxado']
 
     preco_taxado = serializers.SerializerMethodField(method_name='calcular_taxa')
+
+    def create(self, validated_data):
+        if self.validated_data['qtd_estoque'] < 0 :
+            validated_data['qtd_estoque'] = 0
+
+        return super().create(validated_data)
+
+    def update(self,instance, validated_data):
+        if self.validated_data['qtd_estoque'] < 0 :
+            validated_data['qtd_estoque'] = 0
+        return super().update(instance, validated_data)
 
     def calcular_taxa(self,produto : Produto):
         return produto.preco * Decimal(1.1)
@@ -39,3 +51,9 @@ class AvaliacoesSerializer(serializers.ModelSerializer):
         model= Avaliacoes
         # fields = '__all__'
         fields = ['id','produto','nome','descricao','dt_pedido','estrelas']
+
+
+class CategoriaSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Categoria
+        fields = '__all__'
