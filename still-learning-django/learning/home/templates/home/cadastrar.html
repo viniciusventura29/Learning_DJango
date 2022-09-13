@@ -1,0 +1,23 @@
+{% include 'header.html' %}
+
+<body>
+    <!-- NAV BAR -->
+    {% include 'navbar.html' %}
+
+    <h1>Cadastro de Produtos</h1>
+
+    <form action="{% url 'cadastrar_prod' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Digite o nome do cliente: ">
+        <input type="text" name="brand" placeholder="Digite a marca do produto: ">
+        <input type="text" name="product" placeholder="Digite qual é o produto: ">
+        <input type="number" name="quantity" placeholder="Digite a quantidade do produto: ">
+        <input type="number" name="price" placeholder="Digite o preço do produto: ">
+        <input type="file" name="photo" id="">
+
+        <button class="btn" type="submit">Salvar</button>
+    </form>
+
+</body>
+
+</html>

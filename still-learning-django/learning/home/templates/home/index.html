@@ -1,0 +1,24 @@
+<body>
+{% include 'navbar.html' %}
+
+<div class="row">
+        <!-- LISTS DIVISION -->
+        <ul class="collection">
+            {% for prod in Produtos %}
+            <li class="collection-item avatar">
+                <a href="{% url 'details' prod.name %}">
+                    <img src="{{prod.photo}}" width="50px" alt="">
+                </a><br>
+                <span class="title"> {{prod.name}} </span>
+                <p>
+
+                    {{prod.product}} <br>
+                    {{prod.price}}
+                </p>
+            </li>
+            {% endfor %}
+            <a class="btn" href="{%url 'cadastrar_prod'%}">formulario</a>
+        </ul>
+    </div>
+</body>
+</html>

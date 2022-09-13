@@ -1,0 +1,27 @@
+{% include 'header.html' %}
+
+<body>
+{% include 'navbar.html' %}
+
+<button class="btn">SOCORRO</button>
+<div class="row">
+        <!-- LISTS DIVISION -->
+        <ul class="collection">
+            {% for prod in Produtos %}
+            <li class="collection-item avatar">
+                <a href="{% url 'details' user.id %}">
+                    <img src="" alt="">
+                </a>
+                <span class="title"> {{prod.name}} </span>
+                <p>
+
+                    {{prod.product}} <br>
+                    {{prod.price}}
+                </p>
+            </li>
+            {% endfor %}
+            <a class="btn" href="{%url 'cadastrar_prod'%}">formulario</a>
+        </ul>
+    </div>
+</body>
+</html>
