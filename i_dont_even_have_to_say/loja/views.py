@@ -6,13 +6,34 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import Avaliacoes, Produto, Assados, Categoria
-from .serializer import AssadosSerializer, ProdutoSerializer, AvaliacoesSerializer, CategoriaSerializer
+from .serializer import AssadosSerializer, ClientesSerializer, PedidoItemSerializer, ProdutoSerializer, AvaliacoesSerializer, CategoriaSerializer, PedidoSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 from loja import serializer
 
 # Modo com viewSet / mais abstraido
-# class ProdutosListarViewSet(viewsets.ModelViewSet):
-#     queryset = Produto.objects.all()
-#     serializer_class = ProdutoSerializer
+class ProdutosListarViewSet(viewsets.ModelViewSet):
+    queryset = Produto.objects.all()
+    serializer_class = ProdutoSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['categoria_id']
+
+    # Menos abstraido
+    # def get_queryset(self):
+    #     queryset = Produto.objects.all()
+    #     categoria_id = self.request.query_params.get('categoria_id')
+        
+    #     if categoria_id is not None:
+    #         queryset = queryset.filter(categoria_id=categoria_id)
+    #     return queryset
+
+
+# Modo com viewSet / mais abstraido
+class AvaliacoesListarViewSet(viewsets.ModelViewSet):
+    queryset = Avaliacoes.objects.all()
+    serializer_class = AvaliacoesSerializer
+
+    def get_queryset(self):
+        return Avaliacoes.objects.filter(produto_id = self.kwargs['produtos_pk'])
 
 #Modo com ListCreateAPIView
 class ProdutosListar(ListCreateAPIView):
@@ -149,7 +170,7 @@ class AvaliacaoListar(ListCreateAPIView):
     queryset = Avaliacoes.objects.all()
     serializer_class = AvaliacoesSerializer
 
-class AvaliacaoDetalhes(ListCreateAPIView):
+class AvaliacaoDetalhes(RetrieveUpdateDestroyAPIView):
     queryset = Avaliacoes.objects.all()
     serializer_class = AvaliacoesSerializer
 
@@ -201,6 +222,86 @@ class CategoriaDetalhes(ListCreateAPIView):
 
         return super().create(request)  
 
+class ClientesListar(ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = ClientesSerializer
+
+class ClientesDetalhes(ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = ClientesSerializer
+    def update(self, request, pk):
+        if float(request.data['preco']) < 0 or float(request.data['preco']) >=100:
+            return Response({"error": "O preço deve ser no range de 0 a 100"})
+
+        return super().update(request)  
+
+    def delete(self, request, pk):
+        categoria = get_object_or_404(Categoria, pk=pk)
+        if categoria.qtd_estoque != 0: 
+            return Response({"error": "Só é possivel deletar produtos com o estoque zerado"})
+
+        categoria.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def create(self, request, pk):
+        if float(request.data['preco']) < 0 or float(request.data['preco']) >=100:
+            return Response({"error": "O preço deve ser no range de 0 a 100"})
+
+        return super().create(request)  
+
+class PedidoListar(ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = PedidoSerializer
+
+class PedidoDetalhes(ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = PedidoSerializer
+    def update(self, request, pk):
+        if float(request.data['preco']) < 0 or float(request.data['preco']) >=100:
+            return Response({"error": "O preço deve ser no range de 0 a 100"})
+
+        return super().update(request)  
+
+    def delete(self, request, pk):
+        categoria = get_object_or_404(Categoria, pk=pk)
+        if categoria.qtd_estoque != 0: 
+            return Response({"error": "Só é possivel deletar produtos com o estoque zerado"})
+
+        categoria.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def create(self, request, pk):
+        if float(request.data['preco']) < 0 or float(request.data['preco']) >=100:
+            return Response({"error": "O preço deve ser no range de 0 a 100"})
+
+        return super().create(request)  
+
+class PedidoItemListar(ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = PedidoItemSerializer
+
+class PedidoItemDetalhes(ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = PedidoItemSerializer
+    def update(self, request, pk):
+        if float(request.data['preco']) < 0 or float(request.data['preco']) >=100:
+            return Response({"error": "O preço deve ser no range de 0 a 100"})
+
+        return super().update(request)  
+
+    def delete(self, request, pk):
+        categoria = get_object_or_404(Categoria, pk=pk)
+        if categoria.qtd_estoque != 0: 
+            return Response({"error": "Só é possivel deletar produtos com o estoque zerado"})
+
+        categoria.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def create(self, request, pk):
+        if float(request.data['preco']) < 0 or float(request.data['preco']) >=100:
+            return Response({"error": "O preço deve ser no range de 0 a 100"})
+
+        return super().create(request)  
 
 # Modo Sem abstração (Que ja tinha abstração kk)
 # @api_view(['GET','POST'])

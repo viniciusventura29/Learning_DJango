@@ -2,7 +2,7 @@ from dataclasses import fields
 from pydoc import describe
 from statistics import mode
 from rest_framework import serializers
-from .models import Assados, Avaliacoes, Categoria, Produto
+from .models import Assados, Avaliacoes, Categoria, Produto, Cliente, Pedido, PedidoItem
 from decimal import Decimal
 
 class ProdutoSerializer(serializers.ModelSerializer):
@@ -56,4 +56,19 @@ class AvaliacoesSerializer(serializers.ModelSerializer):
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta :
         model = Categoria
+        fields = '__all__'
+
+class ClientesSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Cliente
+        fields = '__all__'
+
+class PedidoSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Pedido
+        fields = '__all__'
+
+class PedidoItemSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = PedidoItem
         fields = '__all__'
